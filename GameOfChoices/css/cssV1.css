@@ -1,0 +1,38 @@
+body {
+    background-color: black;
+	color : gray;
+}
+
+.holder {
+	border : 1px solid gray;
+	position: absolute;
+}
+
+#log-holder {
+	left: 2%;
+	top:2%;
+	width: 55%;
+	height: 55%;
+	overflow: auto;
+	padding: 2%;
+}
+
+#info-holder {
+	left: 65%;
+	top:2%;
+	width: 25%;
+	height: 55%;
+	padding: 2%;
+}
+
+#actions-holder {
+	left: 2%;
+	top:72%;
+	width: 90%;
+	height: 15%;
+	padding: 1%;
+}
+
+.button {
+	margin: 5px;
+}
