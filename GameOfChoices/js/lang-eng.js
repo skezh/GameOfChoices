@@ -19,7 +19,7 @@ function TLangEng() {
 		"No"					: "No",
 		"SaveToFile"			: "Save to file",
 		"LoadFromFile"			: "Load from file",
-		"SavedAlert"			: 'A log file was saved as "TulDevelopGameSave.txt" in your default download folder',
+		"SavedAlert"			: 'A log file was saved as "GameOfChoices.txt" in your default download folder',
 		"Submit"				: "Submit",
 		"ChangePlayerName"		: "Change",
 		"AddPlayer"				: "Add player",
