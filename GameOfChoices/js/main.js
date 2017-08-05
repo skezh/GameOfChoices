@@ -135,16 +135,9 @@ function TMain() {
 			main.nextQuestion();
 		}
 		if (actionName == main.texts["OptionOther"]) {
-			main.displayMessage(main.tempText)
-			main.logFile.push(["A", [main.players[main.currentPlayerIndex].name, "Other", main.tempText]])
-			main.askPlayer(++main.currentPlayerIndex);
+			main.logFile.push(["A", [main.players[main.currentPlayerIndex].name, main.texts["OptionOther"] + ": " + main.tempText]])
+			main.answer(main.tempText);
 		}
-		if (actionName == main.texts["OptionComment"])
-			{
-			main.displayMessage(main.tempText);
-			main.logFile.push(["A", [main.players[main.currentPlayerIndex].name, "Comment", main.tempText]])
-			main.askPlayer(main.currentPlayerIndex);
-		}		
 	}
 
 	main.refreshInfo = function() {
@@ -273,16 +266,12 @@ function TMain() {
 			return;
 		}
 		main.displayMessage(main.players[i].name + ": ", true);
-		var options = [main.currentQuestion[0], main.currentQuestion[1], main.texts["OptionBoth"], main.texts["OptionNeither"], main.texts["OptionOther"], main.texts["OptionSkip"], main.texts["OptionDiscard"], main.texts["OptionComment"]];
-		for (var i = 0; i < 8; i++) {	
+		var options = [main.currentQuestion[0], main.currentQuestion[1], main.texts["OptionOther"]];
+		for (var i = 0; i < options.length; i++) {	
 			var button = $('<input type="button" class="button choice" id="' + main.currentQuestion[0] + main.texts["Or"] + main.currentQuestion[1] + options[i] + '" value="' + options[i] + '">');
 			button.click(function(e) {
 				$(".choice").remove()
-				if (e.currentTarget.value == main.texts["OptionComment"]) {
-					main.displayMessage(main.texts["OptionComment"] + ": ", true);
-					main.addField(e.currentTarget.value, "tempText", "#actions-holder");
-				}
-				else if (e.currentTarget.value == main.texts["OptionOther"]) {
+				if (e.currentTarget.value == main.texts["OptionOther"]) {
 					main.displayMessage(main.texts["OptionOther"] + ": ", true);
 					main.addField(e.currentTarget.value, "tempText", "#actions-holder");	
 				}
@@ -296,26 +285,9 @@ function TMain() {
 	}
 	
 	main.answer = function (choice) {
-		if (choice == main.texts["OptionDiscard"]) {
-			var message = main.texts["DoYouPrefer"] + " " + main.currentQuestion[0] + " " + main.texts["Or"] + " " + main.currentQuestion[1] + "?<br>";
-			var text = $("#log-holder");
-			text.html(text.html().substring(0, text.html().indexOf(message)));
-			main.discardedQuestions.push(main.currentQuestion);
-			for (var i = 0; i < main.players.length ; i++) {
-				for (var j = 0; j < main.players[i].answers.length; j++) {
-					if (main.players[i].answers[j][0] == main.currentQuestion[0] && main.players[i].answers[j][1] == main.currentQuestion[1])
-						main.players[i].answers.splice(j,1)
-				}
-			}
-			main.refreshInfo();
-			main.nextQuestion();
-			return;
-		}
-		else {
-			main.displayMessage(choice);
-			main.answeredQuestions.push(main.currentQuestion);
-			main.players[main.currentPlayerIndex].answers.push(main.currentQuestion);
-		}
+		main.displayMessage(choice);
+		main.answeredQuestions.push(main.currentQuestion);
+		main.players[main.currentPlayerIndex].answers.push(main.currentQuestion);
 		main.refreshInfo();
 		main.askPlayer(++main.currentPlayerIndex);
 	}
@@ -350,7 +322,4 @@ function TMain() {
 		logHolder.append(message);
 		logHolder.scrollTop(logHolder[0].scrollHeight);
 	}
-
-	
-	
 }
