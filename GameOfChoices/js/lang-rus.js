@@ -19,7 +19,7 @@ function TLangRus() {
 		"No"					: "Нет",
 		"SaveToFile"			: "Сохранить в файл",
 		"LoadFromFile"			: "Загрузить из файла",
-		"SavedAlert"			: 'Файл с именем "TulDevelopGameSave.txt" загрузился в вашу папку загрузки по умолчанию.',
+		"SavedAlert"			: 'Файл с именем "GameOfChoices.txt" загрузился в вашу папку загрузки по умолчанию.',
 		"Submit"				: "Потвердить",
 		"ChangePlayerName"		: "Изменить",
 		"AddPlayer"				: "Добавить игрока",
