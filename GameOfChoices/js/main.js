@@ -8,20 +8,12 @@ function TMain() {
 		"name"		 : "",
 		"answers"	 : [],
 	};
-	main.answerTemplate = {
-		"date"		: "",
-		"question"	: "",
-		"answer"	: "",
-		"other"		: "",
-		"comment"	: "",
-	};
 
 	main.currentPlayerIndex = 0;
 
 	var textFile = new TLangEng();
 	main.texts = textFile.texts;
 	main.questions = textFile.questions;
-	main.discardedQuestions = [];
 	main.answeredQuestions = [];
 	main.currentQuestion = [];
 	
@@ -65,6 +57,7 @@ function TMain() {
 		$("#actions-holder").html("");
 		main.answeredQuestions = [];
 		main.players = [];
+		main.newLog = [];
 		main.playerNames = main.logFile[1].substring(9).split(",");
 		for (var i = 0; i < main.playerNames.length; i++) {
 			var player = clone(main.playerTemplate);
@@ -74,7 +67,7 @@ function TMain() {
 		
 		main.players[main.players.length-1].name = main.players[main.players.length-1].name.substring(0, main.players[main.players.length-1].name.length-1)
 		main.displayMessage(main.texts["Welcome"] + " " + main.playerNames.join(","));
-		
+		var newLog = [];
 		var lastQuestion = [];
 		for (var i = 3; i < main.logFile.length; i++) {
 			$("#log-holder").append(main.logFile[i] + "<br>");
@@ -82,17 +75,19 @@ function TMain() {
 				lastQuestion = [
 				main.logFile[i].substring(main.texts["DoYouPrefer"].length + 1, main.logFile[i].indexOf(main.texts["Or"]) - 1),  
 				main.logFile[i].substring(main.logFile[i].indexOf(main.texts["Or"]) + main.texts["Or"].length + 1, main.logFile[i].length - 3 )];
+				newLog.push(["Q", clone(lastQuestion)]);
 				main.answeredQuestions.push(lastQuestion)
 			}
 			else {
 				for (var j = 0; j < main.players.length; j++) {
 					if (main.players[j].name == main.logFile[i].substring(0, main.logFile[i].indexOf(":"))) {
-						if (main.logFile[i].indexOf(main.texts["OptionComment"]) == -1)
-							main.players[j].answers.push(clone(lastQuestion))
+						newLog.push(["A", [main.players[j].name, main.logFile[i].substring(main.logFile[i].indexOf(":")+2)]])
+						main.players[j].answers.push(clone(lastQuestion))
 					}
 				}
 			}
 		}
+		main.logFile = newLog;
 		main.unansweredQuestions = main.getQuestions();
 		main.nextQuestion();
 	}
@@ -182,7 +177,7 @@ function TMain() {
 		saveButton = $('<input type="button" class="button info" id="saveButton" value="' + main.texts["SaveToFile"] + '">')
 		saveButton.click(function(e) {
 			var text = main.makeLogString(false);
-			var filename = "TulDevelopGameSave"
+			var filename = "GameOfChoices"
 			var blob = new Blob([text], {type: "text/plain;charset=utf-8"});
 			saveAs(blob, filename+".txt");
 			alert(main.texts["SavedAlert"])
